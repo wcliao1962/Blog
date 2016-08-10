@@ -1,0 +1,14 @@
+{
+    "name": "wen/startbootstrap-blog-home-3.3.7",
+    "type": "project",
+    "authors": [
+        {
+            "name": "wen-chung",
+            "email": "wcliao1962@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "nesbot/carbon": "^1.21"
+    }
+}
