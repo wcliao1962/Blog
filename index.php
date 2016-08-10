@@ -1,7 +1,7 @@
 <?php
 
 require __DIR__.'/bootstrap.php';
-require 'vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
 use Carbon\Carbon;
 
@@ -82,7 +82,7 @@ try {
     <div class="container">
 
         <div class="row">
-            <?php $statement = $pdo->query("SELECT * FROM `post-list` LIMIT 3"); ?>
+            <?php $statement = $pdo->query("SELECT * FROM `post-list`"); ?>
 
             <!-- Blog Entries Column -->
             <div class="col-md-8">
@@ -95,7 +95,7 @@ try {
                 <?php while($row = $statement->fetch(PDO::FETCH_OBJ)): ?>
                 <!-- First Blog Post -->
                 <h2>
-                    <a href="#"><?=$row->title?></a>
+                    <a href="post/index.php?id=1"><?=$row->title?></a>
                 </h2>
                 <p class="lead">
                     by <a href="index.php"><?=$row->name?></a>
@@ -105,7 +105,7 @@ try {
                 <img class="img-responsive" src="http://placehold.it/900x300" alt="">
                 <hr>
                 <p><?=$row->content?></p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <a class="btn btn-primary" href="post/index.php?id=1">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr>
                 <?php endwhile; ?>
