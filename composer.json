@@ -9,6 +9,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "nesbot/carbon": "^1.21"
+        "nesbot/carbon": "^1.21",
+        "hybridauth/hybridauth": "^2.6"
     }
 }

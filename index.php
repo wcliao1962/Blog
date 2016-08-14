@@ -1,9 +1,9 @@
 <?php
 
 require __DIR__.'/bootstrap.php';
-require __DIR__.'/vendor/autoload.php';
 
 use Carbon\Carbon;
+Carbon::setlocale('zh-TW');
 
 // connect to dabase
 try {
@@ -57,7 +57,7 @@ try {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Start Bootstrap</a>
+                <a class="navbar-brand" href="/">Start Bootstrap</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -70,6 +70,9 @@ try {
                     </li>
                     <li>
                         <a href="#">Contact</a>
+                    </li>
+                    <li>
+                        <a href="#">Login</a>
                     </li>
                 </ul>
             </div>
@@ -93,9 +96,11 @@ try {
                 </h1>
 
                 <?php while($row = $statement->fetch(PDO::FETCH_OBJ)): ?>
+                <?php $href="post/index.php?id=".$row->id; //echo $href;?>
+                
                 <!-- First Blog Post -->
                 <h2>
-                    <a href="post/index.php?id=1"><?=$row->title?></a>
+                    <a href="<?=$href?>"><?=$row->title?></a>
                 </h2>
                 <p class="lead">
                     by <a href="index.php"><?=$row->name?></a>
@@ -105,7 +110,7 @@ try {
                 <img class="img-responsive" src="http://placehold.it/900x300" alt="">
                 <hr>
                 <p><?=$row->content?></p>
-                <a class="btn btn-primary" href="post/index.php?id=1">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <a class="btn btn-primary" href="<?=$href?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr>
                 <?php endwhile; ?>

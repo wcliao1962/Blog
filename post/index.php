@@ -1,10 +1,13 @@
 <?php
 
 require '../bootstrap.php';
-require '../vendor/autoload.php';
 
-//use Carbon\Carbon;
-//$uid=_GET['ad'];
+
+use Carbon\Carbon;
+Carbon::setlocale('zh-TW');
+
+$uid=$_GET['id'];
+
 // connect to dabase
 try {
     $dsn = 'mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_DATABASE.';charset='.DB_CHARSET;
@@ -57,7 +60,7 @@ die();
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Start Bootstrap</a>
+                <a class="navbar-brand" href="/">Start Bootstrap</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -70,6 +73,9 @@ die();
                     </li>
                     <li>
                         <a href="#">Contact</a>
+                    </li>
+                    <li>
+                        <a href="#">login</a>
                     </li>
                 </ul>
             </div>
@@ -85,7 +91,7 @@ die();
 
             <!-- Blog Post Content Column -->
             <div class="col-lg-8">
-                <?php $statement = $pdo->query("SELECT * FROM `post-list` where id=1"); ?>
+                <?php $statement = $pdo->query("SELECT * FROM `post-list` where id=$uid"); ?>
                 <?php $row = $statement->fetch(PDO::FETCH_OBJ); ?>
                 <!-- Blog Post -->
 
@@ -100,7 +106,8 @@ die();
                 <hr>
 
                 <!-- Date/Time -->
-                <p><span class="glyphicon glyphicon-time"></span> Posted on <?=$row->created_at?></p>
+                <p><span class="glyphicon glyphicon-time"></span> 
+                Posted on <?=Carbon::createFromFormat('Y-m-d H:i:s', $row->created_at)->diffForHumans()?></p>
 
                 <hr>
 
