@@ -1,8 +1,11 @@
 <?php
 
-$login_id=1;
-$blog_id=1;
-//$uid=$_GET['id'];
+//$login_id=1;
+//$blog_id=1;
+//$blog_id = $_GET["blog_id"];
+
+$login_id = $_GET["login_id"];
+
 
 require '../bootstrap.php';
 
@@ -54,9 +57,9 @@ die();
 </head>
 
 <body>
-    <?php $statement = $pdo->query("SELECT * FROM `user` where id=$login_id"); ?>
+    <?php $statement = $pdo->query("SELECT * FROM `userblog` where uid=$login_id"); ?>
     <?php $row = $statement->fetch(PDO::FETCH_OBJ); ?>
-
+    <?php $blog_id = $row->bid; ?>
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -157,7 +160,8 @@ die();
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?=$row->name?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="/"><i class="fa fa-fw fa-folder"></i> My Blog</a>
+                            <?php $href="/index.php?blog_id=$blog_id&login_id=$login_id";?>
+                            <a href="<?=$href?>"><i class="fa fa-fw fa-folder"></i> My Blog</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -185,10 +189,12 @@ die();
                         <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
                     </li>
                     <li>
-                        <a href="tables.php"><i class="fa fa-fw fa-table"></i> 文章列表</a>
+                        <?php $href="tables.php?blog_id=$blog_id&login_id=$login_id";?>
+                        <a href="<?=$href?>"><i class="fa fa-fw fa-table"></i> 文章列表</a>
                     </li>
                     <li>
-                        <a href="forms.php"><i class="fa fa-fw fa-edit"></i> 發表文章</a>
+                        <?php $href="forms.php?blog_id=$blog_id&login_id=$login_id";?>
+                        <a href="<?=$href?>"><i class="fa fa-fw fa-edit"></i> 發表文章</a>
                     </li>
                     <li>
                         <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>

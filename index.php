@@ -1,8 +1,17 @@
 <?php
 
-
-$login_id=1;
-$blog_id=1;
+if(is_array($_GET)&&count($_GET)>0)//先判斷是否有值
+{
+//    if(isset($_GET["id"]))//是否存在"id"這個參數
+//    {
+//        $id=$_GET["id"];//存在
+//    }
+    $login_id = $_GET["login_id"];
+    $blog_id = $_GET["blog_id"];
+}else{
+    $login_id = 1;
+    $blog_id = 1;
+}
 
 require __DIR__.'/bootstrap.php';
 
@@ -76,7 +85,8 @@ try {
                         <a href="#">Contact</a>
                     </li>
                     <li>
-                        <a href="/admin/">Admin</a>
+                        <?php $href="/admin/index.php?login_id=$login_id"; //echo $href;?>
+                        <a href="<?=$href?>">管理後臺</a>
                     </li>
                 </ul>
             </div>
@@ -91,21 +101,21 @@ try {
         <div class="row">
             <!-- Blog Entries Column -->
             <div class="col-md-8">
-                 <?php $statement = $pdo->query("SELECT * FROM `userblog` where bid=$blog_id"); ?>
-                 <?php $row1 = $statement->fetch(PDO::FETCH_OBJ); ?>
+                <?php $statement = $pdo->query("SELECT * FROM `userblog` where bid=$blog_id"); ?>
+                <?php $row1 = $statement->fetch(PDO::FETCH_OBJ); ?>
 
                 <h1 class="page-header">
-                    <?=$row1->name?>
+                    <a href="/"><?=$row1->name?></a>
                     <small>****</small>
                 </h1>
 
-                <?php $statement = $pdo->query("SELECT * FROM `post-list` where uid=$login_id and bid=$blog_id"); ?>
+                <?php $statement = $pdo->query("SELECT * FROM `post-list` where bid=$blog_id"); ?>
                 <?php while($row = $statement->fetch(PDO::FETCH_OBJ)):?>
 
-                <?php $href="post/index.php?id=".$row->pid; //echo $href;?>
                 
                 <!-- First Blog Post -->
                 <h2>
+                    <?php $href="/post/index.php?id=$row->pid&blog_id=$blog_id&login_id=$login_id"; //echo $href;?>
                     <a href="<?=$href?>"><?=$row->title?></a>
                 </h2>
                 <p class="lead">
@@ -119,6 +129,7 @@ try {
                 <a class="btn btn-primary" href="<?=$href?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr>
+
                 <?php endwhile; ?>
 
                 <!-- Pager -->

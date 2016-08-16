@@ -1,7 +1,10 @@
 <?php
 
-$login_id=1;
-$blog_id=1;
+//$login_id=1;
+//$blog_id=1;
+$login_id = $_GET["login_id"];
+
+$blog_id = $_GET["blog_id"];
 $pid=$_GET['id'];
 
 require '../bootstrap.php';
@@ -76,7 +79,8 @@ die();
                         <a href="#">Contact</a>
                     </li>
                     <li>
-                        <a href="/admin/">Admin</a>
+                        <?php $href="/admin/index.php?login_id=$login_id"; //echo $href;?>
+                        <a href="<?=$href?>">管理後臺</a>
                     </li>
                 </ul>
             </div>
@@ -92,12 +96,21 @@ die();
 
             <!-- Blog Post Content Column -->
             <div class="col-lg-8">
-                <?php $statement = $pdo->query("SELECT * FROM `post-list` where pid=$pid and uid=$login_id and bid=$blog_id"); ?>
+                <?php $statement = $pdo->query("SELECT * FROM `userblog` where bid=$blog_id"); ?>
+                <?php $row1 = $statement->fetch(PDO::FETCH_OBJ); ?>
+
+                <h1 class="page-header">
+                    <?php $href="/index.php?blog_id=$blog_id&login_id=$login_id"; //echo $href;?>
+                    <a href="<?=$href?>"><?=$row1->name?></a>
+                    <small>****</small>
+                </h1>
+
+                <?php $statement = $pdo->query("SELECT * FROM `post-list` where pid=$pid"); ?>
                 <?php $row = $statement->fetch(PDO::FETCH_OBJ); ?>
                 <!-- Blog Post -->
 
                 <!-- Title -->
-                <h1><?=$row->title?></h1>
+                <h2><?=$row->title?></h2>
 
                 <!-- Author -->
                 <p class="lead">

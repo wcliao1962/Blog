@@ -11,8 +11,10 @@ try {
     die();
 }
 
-$login_id=1;
-$blog_id=1;
+//$login_id=1;
+//$blog_id=1;
+$blog_id = $_GET["blog_id"];
+$login_id = $_GET["login_id"];
 
 if(is_array($_POST)&&count($_POST)>0)//先判斷是否有值
 {
@@ -178,8 +180,10 @@ Carbon::setlocale('zh-TW');
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?=$row->name?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="/"><i class="fa fa-fw fa-folder"></i> My Blog</a>
+                            <?php $href="/index.php?blog_id=$blog_id&login_id=$login_id";?>
+                            <a href="<?=$href?>"><i class="fa fa-fw fa-folder"></i> My Blog</a>
                         </li>
+
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
@@ -206,11 +210,14 @@ Carbon::setlocale('zh-TW');
                         <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
                     </li>
                     <li class="active">
-                        <a href="tables.php"><i class="fa fa-fw fa-table"></i> 文章列表</a>
+                        <?php $href="tables.php?blog_id=$blog_id&login_id=$login_id";?>
+                        <a href="<?=$href?>"><i class="fa fa-fw fa-table"></i> 文章列表</a>
                     </li>
                     <li>
-                        <a href="forms.php"><i class="fa fa-fw fa-edit"></i> 發表文章</a>
+                        <?php $href="forms.php?blog_id=$blog_id&login_id=$login_id";?>
+                        <a href="<?=$href?>"><i class="fa fa-fw fa-edit"></i> 發表文章</a>
                     </li>
+
                     <li>
                         <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
                     </li>
@@ -264,7 +271,7 @@ Carbon::setlocale('zh-TW');
 
                 <div class="row">
                     <div class="col-lg-6">
-                        <?php $statement = $pdo->query("SELECT * FROM `post` where u_id=$login_id and b_id=$blog_id" ); ?>
+                        <?php $statement = $pdo->query("SELECT * FROM `post` where b_id=$blog_id" ); ?>
 
                         <div class="table-responsive">
                             <table class="table table-hover table-striped">
@@ -284,8 +291,7 @@ Carbon::setlocale('zh-TW');
                                 <?php while($row = $statement->fetch(PDO::FETCH_OBJ)):?>
 
                                     <tr>
-                                        <?php $href="../post/index.php?id=".$row->id; ?>
-
+                                        <?php $href="/post/index.php?id=$row->id&blog_id=$blog_id&login_id=$login_id";?>
                                         <td></td>
                                         <td><?=$row->created_at?></td>
                                         <td><a href="<?=$href?>"><?=$row->title?></a></td>

@@ -1,8 +1,9 @@
 <?php
 
-$login_id=1;
-$blog_id=1;
-//$uid=$_GET['id'];
+//$login_id=1;
+//$blog_id=1;
+$blog_id = $_GET["blog_id"];
+$login_id = $_GET["login_id"];
 
 require '../bootstrap.php';
 
@@ -156,8 +157,10 @@ try {
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?=$row->name?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="/"><i class="fa fa-fw fa-folder"></i> My Blog</a>
+                            <?php $href="/index.php?blog_id=$blog_id&login_id=$login_id";?>
+                            <a href="<?=$href?>"><i class="fa fa-fw fa-folder"></i> My Blog</a>
                         </li>
+
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
@@ -184,11 +187,14 @@ try {
                         <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
                     </li>
                     <li>
-                        <a href="tables.php"><i class="fa fa-fw fa-table"></i> 文章列表</a>
+                        <?php $href="tables.php?blog_id=$blog_id&login_id=$login_id";?>
+                        <a href="<?=$href?>"><i class="fa fa-fw fa-table"></i> 文章列表</a>
                     </li>
                     <li class="active">
-                        <a href="forms.php"><i class="fa fa-fw fa-edit"></i> 發表文章</a>
+                        <?php $href="forms.php?blog_id=$blog_id&login_id=$login_id";?>
+                        <a href="<?=$href?>"><i class="fa fa-fw fa-edit"></i> 發表文章</a>
                     </li>
+
                     <li>
                         <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
                     </li>
@@ -242,7 +248,8 @@ try {
                 <div class="row">
                     <div class="col-lg-6">
 
-                        <form role="form" action="tables.php" method="post">
+                        <?php $href="tables.php?blog_id=$blog_id&login_id=$login_id";?>
+                        <form role="form" action="<?=$href?>" method="post">
 
                              <div class="form-group">
                                <input class="form-control" placeholder="請輸入文章標題" name="title">
