@@ -1,14 +1,13 @@
 <?php
 
 $login_id=1;
+$blog_id=1;
+//$uid=$_GET['id'];
 
 require '../bootstrap.php';
 
-
 use Carbon\Carbon;
 Carbon::setlocale('zh-TW');
-
-//$uid=$_GET['id'];
 
 // connect to dabase
 try {
@@ -55,6 +54,8 @@ die();
 </head>
 
 <body>
+    <?php $statement = $pdo->query("SELECT * FROM `user` where id=$login_id"); ?>
+    <?php $row = $statement->fetch(PDO::FETCH_OBJ); ?>
 
     <div id="wrapper">
 
@@ -68,7 +69,7 @@ die();
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">SB Admin</a>
+                <a class="navbar-brand" href="index.php">SB Admin</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -153,8 +154,11 @@ die();
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?=$row->name?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
+                        <li>
+                            <a href="/"><i class="fa fa-fw fa-folder"></i> My Blog</a>
+                        </li>
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
@@ -175,16 +179,16 @@ die();
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
                     </li>
                     <li>
-                        <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
+                        <a href="tables.php"><i class="fa fa-fw fa-table"></i> 文章列表</a>
                     </li>
                     <li>
-                        <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
+                        <a href="forms.php"><i class="fa fa-fw fa-edit"></i> 發表文章</a>
                     </li>
                     <li>
                         <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>

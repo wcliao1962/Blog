@@ -115,7 +115,7 @@ try {
                 <hr>
                 <img class="img-responsive" src="http://placehold.it/900x300" alt="">
                 <hr>
-                <p><?=$row->content?></p>
+                <p><?=substr($row->content,0,300)?></p>
                 <a class="btn btn-primary" href="<?=$href?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr>
