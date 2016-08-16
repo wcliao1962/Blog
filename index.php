@@ -1,5 +1,9 @@
 <?php
 
+
+$login_id=1;
+$blog_id=1;
+
 require __DIR__.'/bootstrap.php';
 
 use Carbon\Carbon;
@@ -72,7 +76,7 @@ try {
                         <a href="#">Contact</a>
                     </li>
                     <li>
-                        <a href="#">Login</a>
+                        <a href="/admin/">Admin</a>
                     </li>
                 </ul>
             </div>
@@ -85,25 +89,27 @@ try {
     <div class="container">
 
         <div class="row">
-            <?php $statement = $pdo->query("SELECT * FROM `post-list`"); ?>
-
             <!-- Blog Entries Column -->
             <div class="col-md-8">
+                 <?php $statement = $pdo->query("SELECT * FROM `userblog` where bid=$blog_id"); ?>
+                 <?php $row1 = $statement->fetch(PDO::FETCH_OBJ); ?>
 
                 <h1 class="page-header">
-                    Page Heading
-                    <small>Secondary Text</small>
+                    <?=$row1->name?>
+                    <small>****</small>
                 </h1>
 
-                <?php while($row = $statement->fetch(PDO::FETCH_OBJ)): ?>
-                <?php $href="post/index.php?id=".$row->id; //echo $href;?>
+                <?php $statement = $pdo->query("SELECT * FROM `post-list` where uid=$login_id and bid=$blog_id"); ?>
+                <?php while($row = $statement->fetch(PDO::FETCH_OBJ)):?>
+
+                <?php $href="post/index.php?id=".$row->pid; //echo $href;?>
                 
                 <!-- First Blog Post -->
                 <h2>
                     <a href="<?=$href?>"><?=$row->title?></a>
                 </h2>
                 <p class="lead">
-                    by <a href="index.php"><?=$row->name?></a>
+                    by <a href="index.php"><?=$row->author?></a>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?=$row->created_at?></p>
                 <hr>

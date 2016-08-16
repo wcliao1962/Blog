@@ -1,12 +1,13 @@
 <?php
 
-require '../bootstrap.php';
+$login_id=1;
+$blog_id=1;
+$pid=$_GET['id'];
 
+require '../bootstrap.php';
 
 use Carbon\Carbon;
 Carbon::setlocale('zh-TW');
-
-$uid=$_GET['id'];
 
 // connect to dabase
 try {
@@ -75,7 +76,7 @@ die();
                         <a href="#">Contact</a>
                     </li>
                     <li>
-                        <a href="#">login</a>
+                        <a href="/admin/">Admin</a>
                     </li>
                 </ul>
             </div>
@@ -91,7 +92,7 @@ die();
 
             <!-- Blog Post Content Column -->
             <div class="col-lg-8">
-                <?php $statement = $pdo->query("SELECT * FROM `post-list` where id=$uid"); ?>
+                <?php $statement = $pdo->query("SELECT * FROM `post-list` where pid=$pid and uid=$login_id and bid=$blog_id"); ?>
                 <?php $row = $statement->fetch(PDO::FETCH_OBJ); ?>
                 <!-- Blog Post -->
 
@@ -100,7 +101,7 @@ die();
 
                 <!-- Author -->
                 <p class="lead">
-                    by <a href="#"><?=$row->name?></a>
+                    by <a href="#"><?=$row->author?></a>
                 </p>
 
                 <hr>

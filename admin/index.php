@@ -1,3 +1,25 @@
+<?php
+
+$login_id=1;
+
+require '../bootstrap.php';
+
+
+use Carbon\Carbon;
+Carbon::setlocale('zh-TW');
+
+//$uid=$_GET['id'];
+
+// connect to dabase
+try {
+    $dsn = 'mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_DATABASE.';charset='.DB_CHARSET;
+    $pdo = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
+} catch (PDOException $e) {
+    echo  "Error: ".$e->getMessage()."＜br/＞";
+die();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
