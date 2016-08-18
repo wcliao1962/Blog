@@ -250,12 +250,15 @@ try {
 
                         <?php $href="tables.php?blog_id=$blog_id&login_id=$login_id";?>
                         <form role="form" action="<?=$href?>" method="post">
+                            <div class="form-group">
+                                <input class="form-control"  type="hidden" name="is_edit" value="false" readonly>
+                            </div>
 
                              <div class="form-group">
                                <input class="form-control" placeholder="請輸入文章標題" name="title">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" value="<?=$now?>" name="c_time">
+                                <input class="form-control" value="<?=$now?>" name="cu_time" readonly>
                             </div>
                             <div class="form-group">
                                 <textarea class="form-control" placeholder="請輸入文章內容" rows="10" name="content"></textarea>

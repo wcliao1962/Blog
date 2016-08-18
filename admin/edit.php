@@ -1,6 +1,16 @@
 <?php
 
+//$login_id=1;
+//$blog_id=1;
+$blog_id = $_GET["blog_id"];
+$login_id = $_GET["login_id"];
+$post_id=$_GET["post_id"];
+
 require '../bootstrap.php';
+
+use Carbon\Carbon;
+Carbon::setlocale('zh-TW');
+$now=Carbon::now();
 
 // connect to dabase
 try {
@@ -10,49 +20,6 @@ try {
     echo  "Error: ".$e->getMessage()."＜br/＞";
     die();
 }
-
-//$login_id=1;
-//$blog_id=1;
-$blog_id = $_GET["blog_id"];
-$login_id = $_GET["login_id"];
-
-if(is_array($_POST)&&count($_POST)>0)//先判斷是否有值
-{
-//    if(isset($_GET["id"]))//是否存在"id"這個參數
-//    {
-//        $id=$_GET["id"];//存在
-//    }
-    $title=$_POST['title'];
-    $cu_time=$_POST['cu_time'];
-    $content=$_POST['content'];
-    //$is_edit=settype($_POST['is_edit'],'boolean');
-    $is_edit=$_POST['is_edit'];
-
-    if(strcmp($is_edit,"true")==0){
-        $post_id=$_POST['post_id'];
-        $stmt = $pdo->prepare("UPDATE post SET title=:title, content=:content, updated_at=:updated_at WHERE id=:post_id");
-        $stmt->bindParam(':post_id', $post_id);
-        $stmt->bindParam(':updated_at', $cu_time);
-    }
-    else{
-        $stmt = $pdo->prepare("INSERT INTO post (title, content, created_at, updated_at, u_id, b_id) VALUES (:title, :content, :created_at, :updated_at, :u_id, :b_id)");
-        $stmt->bindParam(':u_id', $login_id);
-        $stmt->bindParam(':b_id', $blog_id);
-        $stmt->bindParam(':created_at', $cu_time);
-        $stmt->bindParam(':updated_at', $cu_time);
-    }
-
-    $stmt->bindParam(':title', $title);
-    $stmt->bindParam(':content', $content);
-
-    // insert or update a row
-    $stmt->execute();
-}
-
-
-use Carbon\Carbon;
-Carbon::setlocale('zh-TW');
-
 
 ?>
 
@@ -224,7 +191,7 @@ Carbon::setlocale('zh-TW');
                         <?php $href="tables.php?blog_id=$blog_id&login_id=$login_id";?>
                         <a href="<?=$href?>"><i class="fa fa-fw fa-table"></i> 文章列表</a>
                     </li>
-                    <li>
+                    <li >
                         <?php $href="forms.php?blog_id=$blog_id&login_id=$login_id";?>
                         <a href="<?=$href?>"><i class="fa fa-fw fa-edit"></i> 發表文章</a>
                     </li>
@@ -265,58 +232,55 @@ Carbon::setlocale('zh-TW');
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            文章列表
+                            修改文章
                         </h1>
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
                             </li>
+                            <li>
+                                <?php $href="tables.php?blog_id=$blog_id&login_id=$login_id";?>
+                                <a href="<?=$href?>"><i class="fa fa-fw fa-table"></i> 文章列表</a>
+                            </li>
                             <li class="active">
-                                <i class="fa fa-table"></i> 文章列表
+                                <i class="fa fa-edit"></i> 修改文章
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
 
-
                 <div class="row">
                     <div class="col-lg-6">
-                        <?php $statement = $pdo->query("SELECT * FROM `post` where b_id=$blog_id" ); ?>
 
-                        <div class="table-responsive">
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>日期</th>
-                                        <th>文章標題</th>
-                                        <th>文章類別</th>
-                                        <th>人氣</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                        <?php $statement = $pdo->query("SELECT * FROM `post` where id=$post_id"); ?>
+                        <?php $row = $statement->fetch(PDO::FETCH_OBJ); ?>
 
+                        <?php $href="tables.php?blog_id=$blog_id&login_id=$login_id";?>
+                        <form role="form" action="<?=$href?>" method="post">
+                            <div class="form-group">
+                                <input class="form-control"  type="hidden" name="is_edit" value="true" readonly>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control"  type="hidden" name="post_id" value="<?=$row->id?>" readonly>
+                            </div>
+                             <div class="form-group">
+                               <input class="form-control" placeholder="請輸入文章標題" name="title" value="<?=$row->title?>">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" value="<?=$now?>" name="cu_time" readonly>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="請輸入文章內容" rows="10" name="content" ><?=$row->content?></textarea>
+                            </div>
 
-                                <?php while($row = $statement->fetch(PDO::FETCH_OBJ)):?>
+                            <button type="submit" class="btn btn-default">Submit Button</button>
+                            <button type="reset" class="btn btn-default">Reset Button</button>
 
-                                    <tr>
-                                        <?php $href="/post/index.php?id=$row->id&blog_id=$blog_id&login_id=$login_id";?>
-                                        <td></td>
-                                        <td><?=$row->created_at?></td>
-                                        <td><a href="<?=$href?>"><?=$row->title?></a></td>
-                                        <td></td>
-                                        <td></td>
-                                        <?php $href="/admin/edit.php?post_id=$row->id&blog_id=$blog_id&login_id=$login_id";?>
-                                        <td><a href="<?=$href?>"><i class="fa fa-fw fa-edit"></i></a></td>
-                                    </tr>
-                                <?php endwhile; ?>
+                        </form>
 
-                                 </tbody>
-                            </table>
-                        </div>
                     </div>
+
                 </div>
                 <!-- /.row -->
 
